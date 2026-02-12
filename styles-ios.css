@@ -1,0 +1,419 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif;
+    background: #f5f5f7;
+    min-height: 100vh;
+    padding: 80px 20px;
+    color: #1d1d1f;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 80px;
+    animation: slideDown 0.8s ease-out;
+}
+
+header h1 {
+    font-size: 2.8em;
+    font-weight: 700;
+    margin-bottom: 12px;
+    letter-spacing: -0.5px;
+    color: #1d1d1f;
+}
+
+.subtitle {
+    font-size: 1.1em;
+    color: #666;
+    font-weight: 400;
+    letter-spacing: 0;
+}
+
+/* Timeline Container */
+.timeline {
+    position: relative;
+    padding: 60px 0;
+}
+
+.timeline-line {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: #d2d2d7;
+    transform: translateY(-50%);
+    z-index: 1;
+}
+
+.timeline-items {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    position: relative;
+    z-index: 2;
+    gap: 20px;
+}
+
+/* Individual Timeline Item */
+.timeline-item {
+    flex: 1;
+    min-width: 120px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.timeline-item.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.timeline-item:nth-child(1) { transition-delay: 0.1s; }
+.timeline-item:nth-child(2) { transition-delay: 0.2s; }
+.timeline-item:nth-child(3) { transition-delay: 0.3s; }
+.timeline-item:nth-child(4) { transition-delay: 0.4s; }
+.timeline-item:nth-child(5) { transition-delay: 0.5s; }
+.timeline-item:nth-child(6) { transition-delay: 0.6s; }
+
+/* Punto en la línea */
+.timeline-point {
+    width: 14px;
+    height: 14px;
+    background: white;
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    z-index: 5;
+    border: 2px solid #0071e3;
+    box-shadow: 0 0 0 1px #f5f5f7;
+    transition: transform 0.6s ease-out;
+}
+
+.timeline-item.visible .timeline-point {
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.timeline-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    margin-top: 40px;
+    opacity: 0;
+    transform: scale(0.95);
+    transition: opacity 0.6s ease-out 0.2s, transform 0.6s ease-out 0.2s;
+}
+
+.timeline-item.visible .timeline-content {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* Imagen y Tooltip */
+.timeline-image-wrapper {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    margin-bottom: 20px;
+    opacity: 0;
+    transform: scale(0.8);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.timeline-item.visible .timeline-image-wrapper {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.timeline-image-wrapper img {
+    width: 100%;
+    height: 100%;
+    border-radius: 22px;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.2, 0, 0.2, 1);
+    filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.08));
+    padding: 12px;
+    background: white;
+}
+
+.timeline-image-wrapper img:hover {
+    transform: scale(1.08) translateY(-4px);
+    filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.12));
+}
+
+/* Tooltip */
+.tooltip {
+    position: absolute;
+    bottom: 120px;
+    left: 50%;
+    transform: translateX(-50%) translateY(10px);
+    background: white;
+    padding: 18px 16px;
+    border-radius: 12px;
+    width: 220px;
+    max-height: 320px;
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.1);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s cubic-bezier(0.2, 0, 0.2, 1);
+    z-index: 10;
+    text-align: center;
+    pointer-events: none;
+    overflow-y: auto;
+    border: 1px solid #e5e5ea;
+}
+
+.tooltip::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-top: 8px solid white;
+}
+
+.timeline-image-wrapper:hover .tooltip {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0);
+}
+
+.tooltip h3 {
+    color: #0071e3;
+    font-size: 0.95em;
+    margin-bottom: 6px;
+    font-weight: 600;
+    letter-spacing: -0.3px;
+}
+
+.tooltip p {
+    color: #1d1d1f;
+    font-size: 0.85em;
+    margin-bottom: 8px;
+    line-height: 1.4;
+    font-weight: 500;
+}
+
+.tooltip-list {
+    list-style: none;
+    margin: 10px 0;
+    text-align: left;
+}
+
+.tooltip-list li {
+    color: #424245;
+    font-size: 0.78em;
+    margin: 5px 0;
+    padding-left: 14px;
+    position: relative;
+    line-height: 1.3;
+}
+
+.tooltip-list li::before {
+    content: "•";
+    position: absolute;
+    left: 0;
+    color: #0071e3;
+    font-weight: bold;
+}
+
+.tooltip .year {
+    display: block;
+    color: #0071e3;
+    font-weight: 600;
+    font-size: 0.78em;
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid #f5f5f7;
+}
+
+.timeline-date {
+    margin-top: 14px;
+    color: #666;
+    font-size: 0.82em;
+    font-weight: 500;
+    text-align: center;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.6s ease-out 0.4s, transform 0.6s ease-out 0.4s;
+    letter-spacing: -0.2px;
+}
+
+.timeline-item.visible .timeline-date {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    color: #1d1d1f;
+    margin-top: 80px;
+    font-size: 1em;
+    animation: slideUp 0.8s ease-out;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+}
+
+.btn-android {
+    display: inline-block;
+    padding: 12px 28px;
+    background: #0071e3;
+    color: white;
+    text-decoration: none;
+    border-radius: 980px;
+    font-weight: 500;
+    font-size: 0.95em;
+    transition: all 0.3s cubic-bezier(0.2, 0, 0.2, 1);
+    box-shadow: none;
+    border: none;
+    cursor: pointer;
+    letter-spacing: -0.3px;
+}
+
+.btn-android:hover {
+    background: #0077ed;
+    transform: translateY(-2px);
+}
+
+.btn-android:active {
+    transform: translateY(0);
+}
+
+/* Animaciones */
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .timeline-items {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .timeline-line {
+        width: 1px;
+        left: 50%;
+        top: 0;
+        bottom: 0;
+        transform: translateX(-50%);
+        height: auto;
+    }
+
+    .timeline-item {
+        width: 100%;
+        margin: 40px 0;
+    }
+
+    .timeline-point {
+        left: 0;
+    }
+
+    .timeline-content {
+        padding-left: 60px;
+    }
+
+    header h1 {
+        font-size: 2em;
+    }
+}
+
+@media (max-width: 768px) {
+    body {
+        padding: 60px 16px;
+    }
+
+    .timeline-image-wrapper {
+        width: 70px;
+        height: 70px;
+    }
+
+    .tooltip {
+        width: 180px;
+        padding: 14px;
+        bottom: 90px;
+    }
+
+    header h1 {
+        font-size: 1.6em;
+    }
+
+    .subtitle {
+        font-size: 1em;
+    }
+
+    .timeline-content {
+        padding-left: 50px;
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        padding: 40px 12px;
+    }
+
+    header h1 {
+        font-size: 1.4em;
+    }
+
+    .timeline-image-wrapper {
+        width: 60px;
+        height: 60px;
+    }
+
+    .timeline-item {
+        margin: 30px 0;
+    }
+
+    .tooltip {
+        width: 160px;
+        bottom: 100px;
+        font-size: 0.9em;
+    }
+
+    footer {
+        font-size: 0.95em;
+    }
+}
