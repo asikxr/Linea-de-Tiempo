@@ -20,7 +20,6 @@ https://asikxr.github.io/Linea-de-Tiempo/
 🛠 Tecnologías utilizadas
 	•	HTML → Estructura del contenido
 	•	CSS → Diseño y estilos visuales
-	•	JavaScript → Interactividad (si aplica)
 	•	GitHub Pages → Hosting gratuito
 
 ⸻
